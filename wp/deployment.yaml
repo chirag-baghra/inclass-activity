@@ -1,0 +1,39 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: wordpress
+  namespace: wp
+  labels:
+    id: "905672"
+    app: wordpress-stack
+    env: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      id: "905672"
+  template:
+    metadata:
+      labels:
+        id: "905672"
+        app: wordpress-stack
+        env: dev
+    spec:
+      containers:
+      - name: wordpress
+        image: wordpress:latest
+        env:
+        - name: WORDPRESS_DB_HOST
+          valueFrom:
+            configMapKeyRef:
+              name: wordpress-config
+              key: WORDPRESS_DB_HOST
+        - name: WORDPRESS_DB_USER
+          value: "wordpress"
+        - name: WORDPRESS_DB_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secret
+              key: MYSQL_PASSWORD
+        ports:
+        - containerPort: 80

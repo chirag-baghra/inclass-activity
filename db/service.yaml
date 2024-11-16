@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mariadb-service
+  namespace: db
+  labels:
+    id: "905672"
+    app: wordpress-stack
+    env: dev
+spec:
+  type: ClusterIP
+  ports:
+  - port: 3306
+    targetPort: 3306
+  selector:
+    id: "905672"

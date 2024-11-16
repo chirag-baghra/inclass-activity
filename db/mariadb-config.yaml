@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: mariadb-config
+  namespace: db
+  labels:
+    id: "905672"  
+    app: wordpress-stack
+    env: dev
+data:
+  MYSQL_DATABASE: wordpress
+  MYSQL_USER: wordpress

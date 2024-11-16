@@ -1,0 +1,42 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mariadb
+  namespace: db
+  labels:
+    id: "905672"
+    app: wordpress-stack
+    env: dev
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      id: "905672"
+  template:
+    metadata:
+      labels:
+        id: "905672"
+        app: wordpress-stack
+        env: dev
+    spec:
+      containers:
+      - name: mariadb
+        image: mariadb:latest
+        ports:
+        - containerPort: 3306
+        env:
+        - name: MYSQL_ROOT_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: mariadb-secret
+              key: PASSWORD  
+        - name: MYSQL_DATABASE
+          valueFrom:
+            configMapKeyRef:
+              name: mariadb-config
+              key: MYSQL_DATABASE
+        - name: MYSQL_USER
+          valueFrom:
+            configMapKeyRef:
+              name: mariadb-config
+              key: MYSQL_USER
